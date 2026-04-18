@@ -313,16 +313,20 @@ export default function TomatoClassifier() {
           <p className="hero-sub">Identify your tomato plant problems instantly. Upload a clear photo of the affected leaf and our EfficientNet-B3 AI will diagnose it in seconds.</p>
           <div className="hero-stats">
             <div className="stat-pill">
-              <span className="stat-val">97.4%</span>
-              <span className="stat-label">Accuracy</span>
+              <span className="stat-val">
+                {history.length > 0 
+                  ? (history.reduce((sum, h) => sum + h.confidence, 0) / history.length).toFixed(1) + "%"
+                  : "--"}
+              </span>
+              <span className="stat-label">Avg. Confidence</span>
             </div>
             <div className="stat-pill">
-              <span className="stat-val">10</span>
-              <span className="stat-label">Diseases Detected</span>
+              <span className="stat-val">{totalScans}</span>
+              <span className="stat-label">Total Scans</span>
             </div>
             <div className="stat-pill">
-              <span className="stat-val">&lt;2s</span>
-              <span className="stat-label">Analysis Speed</span>
+              <span className="stat-val">{Object.keys(breakdownMap).filter(k => k !== 'Healthy').length}</span>
+              <span className="stat-label">Diseases Found</span>
             </div>
           </div>
         </div>
