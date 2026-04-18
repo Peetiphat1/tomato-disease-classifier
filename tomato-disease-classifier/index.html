@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tomato Leaf Disease Detection — Agrarian AI</title>
+  <meta name="description" content="Identify tomato plant diseases instantly with AI-powered leaf analysis. Upload a photo and get an accurate diagnosis in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <header class="nav-bar" id="main-nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" id="logo-link">
+        <span class="logo-icon">🌿</span>
+        <span class="logo-text">AgrAI</span>
+      </a>
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="#upload-section" class="nav-link active" id="nav-scan">
+          <span class="material-icons-round">camera_enhance</span> Scan
+        </a>
+        <a href="#history-section" class="nav-link" id="nav-gallery">
+          <span class="material-icons-round">collections</span> Gallery
+        </a>
+        <a href="#analytics-section" class="nav-link" id="nav-analytics">
+          <span class="material-icons-round">bar_chart</span> Analytics
+        </a>
+        <a href="#consult-section" class="nav-link" id="nav-consult">
+          <span class="material-icons-round">contact_support</span> Expert Consult
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero-section">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="material-icons-round">auto_awesome</span>
+        AI-Powered Plant Diagnostics
+      </div>
+      <h1 class="hero-title">Tomato Leaf<br /><em>Disease Detection</em></h1>
+      <p class="hero-sub">Identify your tomato plant problems instantly. Upload a clear photo of the affected leaf and our AI will diagnose it in seconds.</p>
+      <div class="hero-stats">
+        <div class="stat-pill" id="stat-accuracy">
+          <span class="stat-val">97.4%</span>
+          <span class="stat-label">Accuracy</span>
+        </div>
+        <div class="stat-pill" id="stat-diseases">
+          <span class="stat-val">10</span>
+          <span class="stat-label">Diseases Detected</span>
+        </div>
+        <div class="stat-pill" id="stat-speed">
+          <span class="stat-val">&lt;2s</span>
+          <span class="stat-label">Analysis Speed</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-ring"></div>
+      <div class="hero-ring ring-2"></div>
+      <img src="tomato_leaf.png" alt="Healthy tomato leaf studied by AI" class="hero-leaf" id="hero-leaf-img" onerror="this.style.display='none'" />
+    </div>
+  </section>
+
+  <!-- ===== UPLOAD SECTION ===== -->
+  <main>
+    <section class="upload-section" id="upload-section">
+      <div class="section-header">
+        <h2 class="section-title">New Scan</h2>
+        <p class="section-desc">Upload a clear, well-lit image of the affected leaf.</p>
+      </div>
+
+      <div class="upload-canvas">
+        <!-- Drop Zone -->
+        <div class="drop-zone" id="drop-zone" role="button" tabindex="0" aria-label="Drop your leaf image here or click to browse">
+          <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" hidden />
+          <div class="dz-idle" id="dz-idle">
+            <div class="dz-icon-wrap">
+              <span class="material-icons-round dz-icon">photo_camera</span>
+            </div>
+            <p class="dz-title">Drag & drop leaf image here</p>
+            <p class="dz-hint">or <span class="dz-browse">click to browse</span></p>
+            <p class="dz-formats">Supports JPG, PNG, WebP — up to 10MB</p>
+          </div>
+          <div class="dz-preview hidden" id="dz-preview">
+            <img id="preview-img" src="" alt="Uploaded leaf preview" class="preview-image" />
+            <button class="btn-remove" id="btn-remove" aria-label="Remove image">
+              <span class="material-icons-round">close</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Detect Button -->
+        <div class="action-row">
+          <button class="btn-primary" id="btn-detect" disabled aria-label="Run disease detection">
+            <span class="material-icons-round">camera_enhance</span>
+            Detect Disease
+          </button>
+          <p class="action-note" id="action-note">Upload an image to begin analysis</p>
+        </div>
+
+        <!-- Analysing State -->
+        <div class="analysing-state hidden" id="analysing-state" aria-live="polite" aria-label="Analysing your leaf image">
+          <div class="pulse-bar">
+            <div class="pulse-fill" id="pulse-fill"></div>
+          </div>
+          <p class="analysing-label">Analysing leaf structure &amp; patterns…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RESULT SECTION ===== -->
+    <section class="result-section hidden" id="result-section" aria-live="polite">
+      <div class="result-header">
+        <span class="result-status-icon material-icons-round" id="result-icon">biotech</span>
+        <div>
+          <p class="result-eyebrow">Diagnosis Complete</p>
+          <h2 class="result-title" id="result-title">—</h2>
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <!-- Left: Image + bounding boxes -->
+        <div class="result-image-wrap">
+          <img id="result-img" src="" alt="Analysed leaf" class="result-image" />
+          <div class="result-bbox" id="result-bbox" hidden></div>
+          <div class="result-image-badge" id="result-badge">
+            <span class="material-icons-round" id="badge-icon">eco</span>
+            <span id="badge-text">Healthy</span>
+          </div>
+        </div>
+
+        <!-- Right: Details -->
+        <div class="result-details">
+
+          <div class="detail-card confidence-card">
+            <p class="detail-label">Confidence</p>
+            <div class="confidence-bar-wrap">
+              <div class="confidence-bar" id="confidence-bar"></div>
+            </div>
+            <p class="confidence-val" id="confidence-val">—</p>
+          </div>
+
+          <div class="detail-card" id="pathogen-card">
+            <p class="detail-label">
+              <span class="material-icons-round">science</span> Pathogen
+            </p>
+            <p class="detail-value" id="pathogen-text">—</p>
+          </div>
+
+          <div class="detail-card" id="severity-card">
+            <p class="detail-label">
+              <span class="material-icons-round">warning_amber</span> Severity
+            </p>
+            <div class="severity-dots" id="severity-dots"></div>
+          </div>
+
+          <div class="detail-card treatment-card" id="treatment-card">
+            <p class="detail-label">
+              <span class="material-icons-round">healing</span> Recommended Treatment
+            </p>
+            <ul class="treatment-list" id="treatment-list"></ul>
+          </div>
+
+          <div class="action-row result-actions">
+            <button class="btn-primary" id="btn-new-scan" aria-label="Upload new image for another scan">
+              <span class="material-icons-round">upload_file</span>
+              New Scan
+            </button>
+            <button class="btn-secondary" id="btn-save" aria-label="Save this result to history">
+              <span class="material-icons-round">bookmark_add</span>
+              Save to History
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HISTORY ===== -->
+    <section class="history-section" id="history-section">
+      <div class="section-header">
+        <h2 class="section-title">Scan History</h2>
+        <p class="section-desc">Your previous diagnoses are saved here.</p>
+      </div>
+      <div class="history-grid" id="history-grid">
+        <div class="history-empty" id="history-empty">
+          <span class="material-icons-round">history</span>
+          <p>No scans yet. Upload a leaf image to begin.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ANALYTICS ===== -->
+    <section class="analytics-section" id="analytics-section">
+      <div class="section-header">
+        <h2 class="section-title">Analytics</h2>
+        <p class="section-desc">Overview of all your diagnosed plant health data.</p>
+      </div>
+      <div class="analytics-grid">
+        <div class="analytics-card" id="analytics-total">
+          <span class="material-icons-round analytics-icon">biotech</span>
+          <span class="analytics-big" id="analytics-total-val">0</span>
+          <span class="analytics-sub">Total Scans</span>
+        </div>
+        <div class="analytics-card healthy-card" id="analytics-healthy">
+          <span class="material-icons-round analytics-icon">eco</span>
+          <span class="analytics-big" id="analytics-healthy-val">0</span>
+          <span class="analytics-sub">Healthy Leaves</span>
+        </div>
+        <div class="analytics-card disease-card" id="analytics-disease">
+          <span class="material-icons-round analytics-icon">coronavirus</span>
+          <span class="analytics-big" id="analytics-disease-val">0</span>
+          <span class="analytics-sub">Diseases Found</span>
+        </div>
+        <div class="analytics-card" id="analytics-rate">
+          <span class="material-icons-round analytics-icon">percent</span>
+          <span class="analytics-big" id="analytics-rate-val">—</span>
+          <span class="analytics-sub">Health Rate</span>
+        </div>
+      </div>
+      <div class="disease-breakdown" id="disease-breakdown">
+        <h3 class="breakdown-title">Disease Breakdown</h3>
+        <div id="breakdown-bars"></div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERT CONSULT ===== -->
+    <section class="consult-section" id="consult-section">
+      <div class="consult-inner">
+        <div class="consult-text">
+          <h2 class="section-title">Expert Consult</h2>
+          <p class="section-desc">Get a personalized treatment plan and advice from our certified agronomists and plant pathologists.</p>
+          <ul class="consult-features">
+            <li><span class="material-icons-round">check_circle</span> Live video consultation</li>
+            <li><span class="material-icons-round">check_circle</span> Soil & fertilizer analysis</li>
+            <li><span class="material-icons-round">check_circle</span> Seasonal disease forecast</li>
+            <li><span class="material-icons-round">check_circle</span> Spray schedule planning</li>
+          </ul>
+          <button class="btn-primary" id="btn-consult">
+            <span class="material-icons-round">video_call</span>
+            Book a Consultation
+          </button>
+        </div>
+        <div class="consult-card-visual">
+          <div class="expert-badge">
+            <span class="material-icons-round" style="font-size:2.5rem;color:var(--primary)">person</span>
+            <div>
+              <p class="expert-name">Dr. Amara Singh</p>
+              <p class="expert-role">Plant Pathologist, MSc.</p>
+              <div class="expert-stars">★★★★★ <span>4.9 (312 reviews)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="app-footer">
+    <p>© 2026 AgrAI — Tomato Leaf Disease Detection. Built with ❤️ for farmers worldwide.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
