@@ -94,28 +94,52 @@ flowchart TD
 ```
 
 #### 3.2.2 System Use Cases
-- **UC100 Manage Disease Classification:** The encompassing use case describing the full pipeline of a user uploading a leaf and obtaining a recorded diagnostic.
-- **UC101 Upload Leaf Image:** The specific interaction where the farmer accesses the Web UI and submits an image payload.
-- **UC102 Classify Disease:** The interaction where the AI module parses the image and returns standard metric results.
-- **UC103 Monitor Crop Health Analytics:** The interaction where the farmer accesses the dashboard to view historical trends based on the SQLite registry.
-
+**UC100 Manage Disease Classification:** 
+The encompassing use case describing the full pipeline of a user uploading a leaf and obtaining a recorded diagnostic.
 ```mermaid
 flowchart LR
     Actor([Farmer])
-    
-    subgraph System ["Smart Tomato Disease Classification System"]
+    subgraph System ["System Boundary"]
+        UC100([UC100 Manage Disease Classification])
         UC101([UC101 Upload Leaf Image])
         UC102([UC102 Classify Disease])
-        UC103([UC103 Monitor Crop Health Analytics])
-        UC100([UC100 Manage Disease Classification])
     end
-
-    Actor --- UC101
-    Actor --- UC103
-    
+    Actor --- UC100
     UC100 -.->|&lt;&lt;includes&gt;&gt;| UC101
     UC100 -.->|&lt;&lt;includes&gt;&gt;| UC102
+```
+
+**UC101 Upload Leaf Image:** 
+The specific interaction where the farmer accesses the Web UI and submits an image payload.
+```mermaid
+flowchart LR
+    Actor([Farmer])
+    subgraph System ["System Boundary"]
+        UC101([UC101 Upload Leaf Image])
+    end
+    Actor --- UC101
+```
+
+**UC102 Classify Disease:** 
+The interaction where the AI module parses the image and returns standard metric results.
+```mermaid
+flowchart LR
+    subgraph System ["System Boundary"]
+        UC101([UC101 Upload Leaf Image])
+        UC102([UC102 Classify Disease])
+    end
     UC101 -->|Triggers| UC102
+```
+
+**UC103 Monitor Crop Health Analytics:** 
+The interaction where the farmer accesses the dashboard to view historical trends based on the SQLite registry.
+```mermaid
+flowchart LR
+    Actor([Farmer])
+    subgraph System ["System Boundary"]
+        UC103([UC103 Monitor Crop Health Analytics])
+    end
+    Actor --- UC103
 ```
 
 ---
