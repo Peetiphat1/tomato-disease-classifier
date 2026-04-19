@@ -82,12 +82,12 @@ The Smart Tomato Disease Classification System consists of three main modules:
 
 ```mermaid
 flowchart TD
-    User([Farmer]) -->|Uploads tomato leaf image| UI[Frontend Module\nNext.js & React]
-    UI -->|REST API Request| API[Backend Module\nFastAPI]
+    User([Farmer]) -->|Uploads tomato leaf image| UI["Frontend Module<br>Next.js & React"]
+    UI -->|REST API Request| API["Backend Module<br>FastAPI"]
     
-    API -->|Save original image| Storage[(Local Storage\n/uploads)]
-    API <-->|Feature Extraction & Inference| AI[AI Module\nPyTorch & EfficientNet-B3]
-    API -->|Persists History| DB[(SQLite Database\nscans_history.db)]
+    API -->|Save original image| Storage[("Local Storage<br>/uploads")]
+    API <-->|Feature Extraction & Inference| AI["AI Module<br>PyTorch & EfficientNet-B3"]
+    API -->|Persists History| DB[("SQLite Database<br>scans_history.db")]
     
     API -->|Return Classification & Score| UI
     UI -->|Displays Diagnostic & Dashboard| User
@@ -103,7 +103,7 @@ flowchart TD
 flowchart LR
     Actor([Farmer])
     
-    subgraph Smart Tomato Disease Classification System
+    subgraph System ["Smart Tomato Disease Classification System"]
         UC101([UC101 Upload Leaf Image])
         UC102([UC102 Classify Disease])
         UC103([UC103 Monitor Crop Health Analytics])
@@ -113,8 +113,8 @@ flowchart LR
     Actor --- UC101
     Actor --- UC103
     
-    UC100 -.->|<<includes>>| UC101
-    UC100 -.->|<<includes>>| UC102
+    UC100 -.->|&lt;&lt;includes&gt;&gt;| UC101
+    UC100 -.->|&lt;&lt;includes&gt;&gt;| UC102
     UC101 -->|Triggers| UC102
 ```
 
