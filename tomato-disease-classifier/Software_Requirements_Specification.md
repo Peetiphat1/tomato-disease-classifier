@@ -317,3 +317,21 @@ flowchart TD
 - **Backend Infrastructure:** FastAPI framework running natively with Uvicorn; SQLite3 for persistent analytics mappings.
 - **Frontend Infrastructure:** React, Next.js framework (Node.js 18+ required), Custom CSS.
 - **Data Sets:** Tomato Leaf Disease Public Dataset (15,064 images).
+
+---
+
+## 8. Index
+
+| | |
+|---|---|
+| AI/Model Requirements ......................... 5 | Next.js Frontend .................................... 3, 4 |
+| Appendices .................................... 8 | Non-Functional Requirements ......................... 5 |
+| Classify Disease .............................. 6, 8 | Overall Description ................................. 2 |
+| Confidence Score .............................. 3, 5 | Preface ............................................. 1 |
+| Data Sets ..................................... 5, 8 | Revision History .................................... 1 |
+| EfficientNet-B3 ............................... 5, 8 | SQLite Database ..................................... 3, 8 |
+| FastAPI Backend ............................... 3, 8 | System Architectures ................................ 3 |
+| Functional Requirements ....................... 4 | System Requirement Specification .................... 5 |
+| Live Analytics Dashboard ...................... 4, 5 | System Workflow ..................................... 8 |
+| Manage Disease Classification ................. 6 | Upload Leaf Image ................................... 6 |
+| Monitor Crop Health Analytics ................. 6 | User Interfaces ..................................... 7 |
