@@ -239,13 +239,80 @@ flowchart LR
 
 ---
 
-## 6. Appendices
+## 6. System Workflow
 
-### 6.1 Hardware Specification
+### 6.1 Manage Disease Classification
+
+#### 6.1.1 Workflow of Upload Leaf Image
+**SysReq XRef:** [SRS]/4.1.1
+```mermaid
+flowchart TD
+    subgraph Farmer
+        S1[S1. Access web application main page]
+        S2[S2. Click upload area or drag an image file]
+        S4[S4. Click 'Detect Disease' button]
+    end
+    subgraph System
+        S3[S3. Display preview of submitted image]
+        E1[E1. Report error: Unsupported format]
+        P1([Post-con: Image submitted to backend])
+    end
+
+    S1 --> S2 --> S3 --> S4
+    S4 -- "Valid Format" --> P1
+    S4 -- "Invalid Format" --> E1
+    E1 --> S2
+```
+
+#### 6.1.2 Workflow of Classify Disease
+**SysReq XRef:** [SRS]/4.1.2
+```mermaid
+flowchart TD
+    subgraph System
+        S1[S1. Resize and normalize image tensor]
+        S2[S2. Extract features & classify image]
+        S3[S3. Save scan record to SQLite]
+        S4[S4. Return disease name & confidence]
+        A1[A1. Mock Mode: Generate simulated probabilities]
+    end
+    subgraph UI
+        S5[S5. Update display with results]
+        P1([Post-con: Result shown & history saved])
+    end
+
+    S1 --> S2
+    S1 -. "If weights missing" .-> A1
+    A1 --> S3
+    S2 --> S3
+    S3 --> S4 --> S5 --> P1
+```
+
+#### 6.1.3 Workflow of Monitor Crop Health Analytics
+**SysReq XRef:** [SRS]/4.1.3
+```mermaid
+flowchart TD
+    subgraph Farmer
+        S1[S1. Scroll to analytics section]
+    end
+    subgraph System
+        S2[S2. Fetch recent scans from API]
+        S3[S3. Compute overall crop health rate]
+        S4[S4. Display metric charts & disease breakdowns]
+        P1([Post-con: Dashboard renders historical metrics])
+    end
+
+    S1 --> S2 --> S3 --> S4 --> P1
+```
+
+---
+
+## 7. Appendices
+
+### 7.1 Hardware Specification
 - **Client Device:** Smartphone, tablet, or digital camera capable of taking clear photos of leaves and browsing modern web interfaces.
 - **Server/Processing:** Cloud server or local machine with standard to deep-learning optimized capabilities (e.g. GPU) depending on real-time inference requirements.
 
-### 6.2 Software Development Specification
+### 7.2 Software Development Specification
 - **AI Module:** Python (3.10+), PyTorch, Torchvision (EfficientNet-B3 weights loaded from `tomato_model.pth`).
 - **Backend Infrastructure:** FastAPI framework running natively with Uvicorn; SQLite3 for persistent analytics mappings.
 - **Frontend Infrastructure:** React, Next.js framework (Node.js 18+ required), Custom CSS.
