@@ -57,20 +57,44 @@ In commercial tomato cultivation and greenhouse systems, plant diseases are a pr
 Farmers can perform the following operations via the Smart Tomato Disease Classification System:
 
 1. **Functionality Name: Image Upload & Preview**
-   The system must allow users to upload images of tomato leaves via a drag-and-drop interface or file selection, and display a preview of the submitted image.
+
+| Requirement ID | Requirements |
+|---|---|
+| SYS-REQ-01 | The farmer shall be able to take a photo of a suspected diseased tomato leaf and upload it into the system. |
+| SYS-REQ-02 | The system shall analyze the image and display the "Disease Name" along with a Confidence Score on the website screen in real-time. |
+
 2. **Functionality Name: Real-Time AI Inference**
-   The system shall instantly classify uploaded images into one of 10 classes using the deep learning model and present the resulting disease name and confidence score.
+
+| Requirement ID | Requirements |
+|---|---|
+| AI-REQ-01 | The AI model shall extract features from lesions, colors, and abnormalities on the leaf using a CNN (EfficientNet-B3). |
+| AI-REQ-02 | The AI model shall classify the image into one of 10 designated classes (9 diseases, 1 healthy). |
+
 3. **Functionality Name: Scan History Persistence**
-   The system must automatically record all scan interactions alongside their uploaded images locally into a SQLite database (`scans_history.db`) and a local storage directory (`/uploads`).
+
+| Requirement ID | Requirements |
+|---|---|
+| SYS-REQ-03 | The system backend shall securely store scan details (ID, label, confidence, timestamp) into local SQL persistence (`scans_history.db`) and a local storage directory (`/uploads`). |
+
 4. **Functionality Name: Live Analytics Dashboard**
-   The system must dynamically display analytics to the user, including total scans, overall crop health rate, and graphical breakdowns of diseases encountered.
+
+| Requirement ID | Requirements |
+|---|---|
+| SYS-REQ-04 | The system shall compute overall health metrics, including total scans and disease breakdowns, and serve them to the UI's Live Analytics dashboard. |
+
 5. **Functionality Name: Dynamic Backend Modes**
-   The system must automatically configure itself into Mock Mode (dummy inference) or Real Mode (AI inference) depending on the availability of the `tomato_model.pth` weight file.
+
+| Requirement ID | Requirements |
+|---|---|
+| SYS-REQ-05 | The system must automatically configure itself into Mock Mode or Real Mode depending on the availability of the `tomato_model.pth` weight file. |
 
 #### 3.1.2 Non-functional Requirements 
-1. **Performance Requirement:** The inference process must execute rapidly (real-time responsiveness) so farmers receive immediate diagnostic results.
-2. **Accuracy Requirement:** The ML model must sustain a high classification accuracy achieved by training on a dataset of 15,064 images (with an 80/20 train/test split).
-3. **Usability Requirement:** The frontend (Next.js) must be highly intuitive, utilizing a modern Agrarian Gallery UI that supports varying device viewports (responsive).
+
+| Requirement ID | Requirements |
+|---|---|
+| NON-REQ-01 | The model shall be trained on a public dataset of 15,064 images, utilizing an 80% training and 20% testing split to ensure high accuracy. |
+| NON-REQ-02 | The inference process must execute rapidly (real-time responsiveness) so farmers receive immediate diagnostic results. |
+| NON-REQ-03 | The frontend (Next.js) must be highly intuitive, utilizing a modern Agrarian Gallery UI that supports varying device viewports (responsive). |
 
 ### 3.2 System Environments
 
