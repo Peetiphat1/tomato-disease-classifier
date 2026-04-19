@@ -18,6 +18,12 @@
 ## Preface
 This Software Requirements Specification (SRS) aims to outline the requirements and specifications for the Smart Tomato Disease Classification System. It is intended for the stakeholders of the project, including agricultural users (farmers/specialists) and the software/AI development team (AI Engineers, Software Engineers, and Project Managers). This document serves as the foundation for the system's architecture, design, and subsequent development phases.
 
+### Revision History
+| Version | Date | Description | Name |
+|---|---|---|---|
+| V 1.0 | 13 February 2026 | Initiate the first version of SRS | Peetiphat Yodthongdee |
+| V 1.1 | 19 April 2026 | Restructured Use Cases, refined Functional Requirement tables, and embedded Live UI integration. | Peetiphat Yodthongdee |
+
 ---
 
 ## 2. Introduction
