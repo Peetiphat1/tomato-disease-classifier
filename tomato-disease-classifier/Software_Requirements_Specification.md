@@ -178,6 +178,8 @@ flowchart LR
 - **Result Panel:** Result: Bacterial Spot Detected 
 - **Confidence Score Panel:** Confidence Score: 89% Accuracy 
 
+![Live Screenshot of the Tomato Leaf Disease Detection Interface](./UI_mockup.png)
+
 *Note: UI will conform to the React/Custom CSS schema detailed in the system source code.*
 
 ---
