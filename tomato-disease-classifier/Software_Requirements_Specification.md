@@ -80,11 +80,43 @@ The Smart Tomato Disease Classification System consists of three main modules:
 2. **Backend/Database Module (FastAPI & SQLite3):** Interacts with the frontend via REST APIs, manages local image persistence on disk (`/uploads`), and handles read/writes to `scans_history.db`.
 3. **AI Module (PyTorch):** Receives the uploaded image payload from FastAPI, performs feature extraction using an EfficientNet-B3 engine, and returns the classification result and confidence score.
 
+```mermaid
+flowchart TD
+    User([Farmer]) -->|Uploads tomato leaf image| UI[Frontend Module\nNext.js & React]
+    UI -->|REST API Request| API[Backend Module\nFastAPI]
+    
+    API -->|Save original image| Storage[(Local Storage\n/uploads)]
+    API <-->|Feature Extraction & Inference| AI[AI Module\nPyTorch & EfficientNet-B3]
+    API -->|Persists History| DB[(SQLite Database\nscans_history.db)]
+    
+    API -->|Return Classification & Score| UI
+    UI -->|Displays Diagnostic & Dashboard| User
+```
+
 #### 3.2.2 System Use Cases
 - **UC100 Manage Disease Classification:** The encompassing use case describing the full pipeline of a user uploading a leaf and obtaining a recorded diagnostic.
 - **UC101 Upload Leaf Image:** The specific interaction where the farmer accesses the Web UI and submits an image payload.
 - **UC102 Classify Disease:** The interaction where the AI module parses the image and returns standard metric results.
 - **UC103 Monitor Crop Health Analytics:** The interaction where the farmer accesses the dashboard to view historical trends based on the SQLite registry.
+
+```mermaid
+flowchart LR
+    Actor([Farmer])
+    
+    subgraph Smart Tomato Disease Classification System
+        UC101([UC101 Upload Leaf Image])
+        UC102([UC102 Classify Disease])
+        UC103([UC103 Monitor Crop Health Analytics])
+        UC100([UC100 Manage Disease Classification])
+    end
+
+    Actor --- UC101
+    Actor --- UC103
+    
+    UC100 -.->|<<includes>>| UC101
+    UC100 -.->|<<includes>>| UC102
+    UC101 -->|Triggers| UC102
+```
 
 ---
 
