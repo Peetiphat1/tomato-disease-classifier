@@ -170,24 +170,49 @@ flowchart LR
 
 ## 4. System Requirement Specification
 
-### System Requirements (SYS-REQ)
-| Requirement ID | Requirements |
-|---|---|
-| **SYS-REQ-01** | The farmer shall be able to take a photo of a suspected diseased tomato leaf and upload it into the system via the Next.js frontend. |
-| **SYS-REQ-02** | The system shall analyze the image and display the "Disease Name" along with a Confidence Score on the website screen in real-time. |
-| **SYS-REQ-03** | The system backend shall securely store scan details (ID, label, confidence, timestamp) into local SQL persistence (`scans_history.db`). |
-| **SYS-REQ-04** | The system shall compute overall health metrics and serve them to the UI's Live Analytics dashboard. |
+### 4.1 Manage Disease Classification
 
-### AI/Model Requirements (AI-REQ)
-| Requirement ID | Requirements |
+#### 4.1.1 Upload Leaf Image
+| Attribute | Description |
 |---|---|
-| **AI-REQ-01** | The AI model shall extract features from lesions, colors, and abnormalities on the leaf using a CNN (EfficientNet-B3). |
-| **AI-REQ-02** | The AI model shall classify the image into one of 10 designated classes (9 diseases, 1 healthy) using PyTorch/Torchvision capabilities. |
+| Use Case Name:: | Upload Leaf Image::UC101 |
+| Requirement ID:: | SYS-REQ-01 |
+| Actor:: | Farmer |
+| Pre-conditions/Assumptions:: | System shows the main web interface. |
+| Post-conditions: | The image is submitted to the backend for analysis. |
+| Flow of Events:: | S1. Farmer accesses the web application main page.<br>S2. Farmer clicks on the upload area or drags an image file.<br>S3. System displays a preview of the submitted image.<br>S4. Farmer clicks the "Detect Disease" button. [E1] |
+| Alternative of Events:: | None |
+| Exception Flow of Events:: | [E1] If the file format is invalid, system reports an error on the screen (e.g., "Unsupported type"). |
+| UI Xref:: | [System UI]/5.1.1 |
+| Note:: | None |
 
-### Non-Functional Requirements (NON-REQ)
-| Requirement ID | Requirements |
+#### 4.1.2 Classify Disease
+| Attribute | Description |
 |---|---|
-| **NON-REQ-01** | The model shall be trained on a public dataset of 15,064 images, utilizing an 80% training and 20% testing split to ensure high accuracy. |
+| Use Case Name:: | Classify Disease::UC102 |
+| Requirement ID:: | SYS-REQ-02, AI-REQ-01, AI-REQ-02, SYS-REQ-03 |
+| Actor:: | System (AI Module) |
+| Pre-conditions/Assumptions:: | Image payload successfully received by FastAPI backend. |
+| Post-conditions: | The system returns the classification result and saves history. |
+| Flow of Events:: | S1. System resizes and normalizes the image tensor.<br>S2. The PyTorch EfficientNet-B3 model extracts features and classifies the image.<br>S3. System saves the scan record to the SQLite database.<br>S4. System returns the disease name and confidence score to the UI.<br>S5. UI updates to display the results. [A1] |
+| Alternative of Events:: | [A1] In Mock Mode, the system generates simulated probabilities instead of loading PyTorch weights. |
+| Exception Flow of Events:: | None |
+| UI Xref:: | [System UI]/5.1.1 |
+| Note:: | None |
+
+#### 4.1.3 Monitor Crop Health Analytics
+| Attribute | Description |
+|---|---|
+| Use Case Name:: | Monitor Crop Health Analytics::UC103 |
+| Requirement ID:: | SYS-REQ-04 |
+| Actor:: | Farmer |
+| Pre-conditions/Assumptions:: | System has recorded previous scans in `scans_history.db`. |
+| Post-conditions: | The dashboard renders the historical metrics. |
+| Flow of Events:: | S1. Farmer scrolls to the analytics section of the web interface.<br>S2. System fetches the recent scans from the backend API.<br>S3. System computes overall crop health rate.<br>S4. System displays metric charts and disease breakdowns. |
+| Alternative of Events:: | None |
+| Exception Flow of Events:: | None |
+| UI Xref:: | [System UI]/Dashboard |
+| Note:: | None |
 
 ---
 
